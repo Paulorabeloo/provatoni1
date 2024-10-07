@@ -2,17 +2,15 @@
 #include<stdlib.h>
 #include<string.h>
 
-// Definição da estrutura do nó para uma lista duplamente encadeada
 typedef struct no {
     int codigo;
     char nome[30];
-    struct no *next;  // Apontador para o próximo nó
-    struct no *back;  // Apontador para o nó anterior
+    struct no *next;  
+    struct no *back;  
 } no;
 
-struct no *corrente, *inicio, *auxiliar, *auxiliar2, *fim; // Adicionado 'fim' para referência ao final da lista
+struct no *corrente, *inicio, *auxiliar, *auxiliar2, *fim; 
 
-// Função para coletar dados do novo nó
 void Enterdata() {
     printf("Informe o codigo: ");
     scanf("%d", &corrente->codigo);
@@ -20,26 +18,25 @@ void Enterdata() {
     scanf("%s", corrente->nome);
 }
 
-// Função para inserir elementos na lista de forma ordenada
 void Classificar() {
-    corrente = (no *)malloc(sizeof(no)); // Aloca memória para o novo nó
-    Enterdata(); // Coleta dados do nó
+    corrente = (no *)malloc(sizeof(no)); 
+    Enterdata(); 
 
     auxiliar = inicio;
 
-    if (inicio == NULL) { // Se a lista estiver vazia
+    if (inicio == NULL) { 
         inicio = fim = corrente;
         corrente->next = corrente->back = NULL;
-        printf("\nPrimeiro nó inserido na lista.\n");
+        printf("\nPrimeiro nÃ³ inserido na lista.\n");
     }
-    else if (strcmp(corrente->nome, auxiliar->nome) < 0) { // Insere no início
+    else if (strcmp(corrente->nome, auxiliar->nome) < 0) { 
         corrente->next = auxiliar;
         corrente->back = NULL;
         auxiliar->back = corrente;
         inicio = corrente;
-        printf("\nElemento inserido no início da lista.\n");
+        printf("\nElemento inserido no inÃ­cio da lista.\n");
     }
-    else { // Insere no meio ou no final
+    else { 
         auxiliar2 = auxiliar->next;
         while (auxiliar2 != NULL && strcmp(corrente->nome, auxiliar2->nome) > 0) {
             auxiliar = auxiliar->next;
@@ -51,50 +48,49 @@ void Classificar() {
         auxiliar->next = corrente;
 
         if (corrente->next != NULL) {
-            corrente->next->back = corrente; // Ajusta o anterior do próximo nó
+            corrente->next->back = corrente; 
             printf("\nElemento inserido no meio da lista.\n");
         } else {
-            fim = corrente; // Atualiza o fim da lista se for o último nó
+            fim = corrente; 
             printf("\nElemento inserido no final da lista.\n");
         }
     }
 }
 
-// Função para excluir elementos da lista
 void Excluir() {
     char xnome[30];
     int achou = 0;
 
-    if (inicio == NULL) { // Verifica se a lista está vazia
+    if (inicio == NULL) { 
         printf("\nLista vazia...\n");
     } else {
-        printf("\nInforme o nome a ser excluído: ");
+        printf("\nInforme o nome a ser excluÃ­do: ");
         scanf("%s", xnome);
 
         auxiliar = inicio;
 
-        if (strcmp(xnome, auxiliar->nome) == 0) { // Excluir no início
+        if (strcmp(xnome, auxiliar->nome) == 0) { 
             inicio = inicio->next;
             if (inicio != NULL) {
                 inicio->back = NULL;
             } else {
-                fim = NULL; // Se a lista ficar vazia
+                fim = NULL; 
             }
             free(auxiliar);
-            printf("\nRegistro excluído no início da lista.\n");
+            printf("\nRegistro excluÃ­do no inÃ­cio da lista.\n");
             achou = 1;
         } else {
             corrente = auxiliar->next;
             while (corrente != NULL) {
-                if (strcmp(xnome, corrente->nome) == 0) { // Excluir no meio ou fim
+                if (strcmp(xnome, corrente->nome) == 0) { 
                     auxiliar->next = corrente->next;
                     if (corrente->next != NULL) {
                         corrente->next->back = auxiliar;
                     } else {
-                        fim = auxiliar; // Atualiza o fim se for o último nó
+                        fim = auxiliar; 
                     }
                     free(corrente);
-                    printf("\nRegistro excluído com sucesso.\n");
+                    printf("\nRegistro excluÃ­do com sucesso.\n");
                     achou = 1;
                     break;
                 }
@@ -103,13 +99,13 @@ void Excluir() {
             }
 
             if (!achou) {
-                printf("\nRegistro não encontrado na lista.\n");
+                printf("\nRegistro nÃ£o encontrado na lista.\n");
             }
         }
     }
 }
 
-// Função para exibir todos os elementos da lista
+
 void Exibir() {
     if (inicio == NULL) {
         printf("\nLista vazia\n");
@@ -124,7 +120,7 @@ void Exibir() {
     system("pause");
 }
 
-// Função principal
+
 int main() {
     inicio = fim = NULL;
     int op;
@@ -134,7 +130,7 @@ int main() {
         printf(" [2] Excluir elemento da lista\n");
         printf(" [3] Exibir elementos da lista\n");
         printf(" [4] Sair\n");
-        printf("Digite a opção desejada: ");
+        printf("Digite a opÃ§Ã£o desejada: ");
         scanf("%d", &op);
 
         switch (op) {
@@ -155,7 +151,7 @@ int main() {
             break;
 
         default:
-            printf("\nOpção inválida, tente novamente.\n");
+            printf("\nOpÃ§Ã£o invÃ¡lida, tente novamente.\n");
         }
     } while (op != 4);
 
