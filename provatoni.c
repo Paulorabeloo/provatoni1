@@ -2,93 +2,96 @@
 #include<stdlib.h>
 #include<string.h>
 
-typedef struct no {
+typedef struct no
+{
     int codigo;
     char nome[30];
-    struct no *next;  
-    struct no *back;  
+    struct no *next;
 } no;
 
-struct no *corrente, *inicio, *auxiliar, *auxiliar2, *fim; 
+struct no *corrente, *inicio, *auxiliar, *auxiliar2;
 
-void Enterdata() {
+void Enterdata()
+{
     printf("Informe o codigo: ");
     scanf("%d", &corrente->codigo);
     printf("Informe o nome: ");
     scanf("%s", corrente->nome);
 }
 
-void Classificar() {
-    corrente = (no *)malloc(sizeof(no)); 
-    Enterdata(); 
+void Classificar()
+{
+    corrente = (no *)malloc(sizeof(no));
+    Enterdata();
 
     auxiliar = inicio;
 
-    if (inicio == NULL) { 
-        inicio = fim = corrente;
-        corrente->next = corrente->back = NULL;
+    if (inicio == NULL)
+    {
+        inicio = corrente;
+        corrente->next = NULL;
         printf("\nPrimeiro nó inserido na lista.\n");
     }
-    else if (strcmp(corrente->nome, auxiliar->nome) < 0) { 
+    else if (strcmp(corrente->nome, auxiliar->nome) < 0)
+    {
         corrente->next = auxiliar;
-        corrente->back = NULL;
-        auxiliar->back = corrente;
         inicio = corrente;
         printf("\nElemento inserido no início da lista.\n");
     }
-    else { 
+    else
+    {
         auxiliar2 = auxiliar->next;
-        while (auxiliar2 != NULL && strcmp(corrente->nome, auxiliar2->nome) > 0) {
+        while (auxiliar2 != NULL && strcmp(corrente->nome, auxiliar2->nome) > 0)
+        {
             auxiliar = auxiliar->next;
             auxiliar2 = auxiliar2->next;
         }
 
         corrente->next = auxiliar->next;
-        corrente->back = auxiliar;
         auxiliar->next = corrente;
 
-        if (corrente->next != NULL) {
-            corrente->next->back = corrente; 
-            printf("\nElemento inserido no meio da lista.\n");
-        } else {
-            fim = corrente; 
+        if (corrente->next == NULL)
+        {
             printf("\nElemento inserido no final da lista.\n");
+        }
+        else
+        {
+            printf("\nElemento inserido no meio da lista.\n");
         }
     }
 }
 
-void Excluir() {
+void Excluir()
+{
     char xnome[30];
     int achou = 0;
 
-    if (inicio == NULL) { 
+    if (inicio == NULL)
+    {
         printf("\nLista vazia...\n");
-    } else {
+    }
+    else
+    {
         printf("\nInforme o nome a ser excluído: ");
         scanf("%s", xnome);
 
         auxiliar = inicio;
 
-        if (strcmp(xnome, auxiliar->nome) == 0) { 
+        if (strcmp(xnome, auxiliar->nome) == 0)
+        {
             inicio = inicio->next;
-            if (inicio != NULL) {
-                inicio->back = NULL;
-            } else {
-                fim = NULL; 
-            }
             free(auxiliar);
             printf("\nRegistro excluído no início da lista.\n");
             achou = 1;
-        } else {
+        }
+        else
+        {
             corrente = auxiliar->next;
-            while (corrente != NULL) {
-                if (strcmp(xnome, corrente->nome) == 0) { 
+            while (corrente != NULL)
+            {
+                if (strcmp(xnome, corrente->nome) == 0)
+                {
                     auxiliar->next = corrente->next;
-                    if (corrente->next != NULL) {
-                        corrente->next->back = auxiliar;
-                    } else {
-                        fim = auxiliar; 
-                    }
                     free(corrente);
                     printf("\nRegistro excluído com sucesso.\n");
                     achou = 1;
@@ -98,33 +101,40 @@ void Excluir() {
                 corrente = corrente->next;
             }
 
-            if (!achou) {
+            if (!achou)
+            {
                 printf("\nRegistro não encontrado na lista.\n");
             }
         }
     }
 }
 
-
-void Exibir() {
-    if (inicio == NULL) {
-        printf("\nLista vazia\n");
-    } else {
+void Exibir()
+{
+    if (inicio == NULL)
+    {
+        printf("\nLista vazia");
+        system("pause");
+    }
+    else
+    {
         auxiliar = inicio;
-        while (auxiliar != NULL) {
+        while (auxiliar != NULL)
+        {
             printf("\nCodigo: %d", auxiliar->codigo);
             printf("\nNome: %s\n", auxiliar->nome);
+            system("pause");
             auxiliar = auxiliar->next;
         }
     }
-    system("pause");
 }
 
-
-int main() {
-    inicio = fim = NULL;
+int main()
+{
+    inicio = NULL;
     int op;
-    do {
+    do
+    {
         system("cls");
         printf(" [1] Inserir elemento na lista\n");
         printf(" [2] Excluir elemento da lista\n");
@@ -133,7 +143,8 @@ int main() {
         printf("Digite a opção desejada: ");
         scanf("%d", &op);
 
-        switch (op) {
+        switch (op)
+        {
         case 1:
             Classificar();
             break;
